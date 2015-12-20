@@ -1,0 +1,104 @@
+.thumbnail {
+    border-radius: 0;
+	border: 1px solid #000000;
+	padding:0;
+}
+.borderRight{
+	border: 0.5px solid #000000;
+}
+.thumbnail a {
+	img {
+		width: 100%;
+		height: 100%;
+		margin-bottom: 10px;
+	}
+}
+.thumbnail a > p {
+	word-break: break-all;
+}
+
+#sidebar {
+	border: 1px solid #000000;
+	padding-top:100px;
+}
+.searchNavbar {
+	border-top: 1px solid #000000;
+	padding:2px;
+	font-size: 28px;
+	height: 40px;
+}
+.floatLeft {
+	float:left;	
+}
+.width50{
+	width:50%;
+}
+.pictures {
+	border-top: 1px solid #000000;
+	padding:10px;
+}
+
+#readNext  {
+	border-top: 1px solid #000000;
+}
+
+.rightSection {
+	padding:20px;
+}
+#bottomTitle {
+	float:left;
+	width:75%;
+	height:100%;
+}
+
+#bottomTitle p {
+	margin-top: 10px;
+	font-size: 20px;
+	font-weight: bold;
+}
+.pagerIcons {
+	float:left;
+	width:25%;
+	height:100%;
+	ul {
+		padding-top:2px;
+		margin:0px;
+	}
+}
+
+.pager {
+	margin:6px 0 0 0;
+	text-align: right;
+}
+.clearBoth {
+	clear:both;
+}
+.borderTopBottom {
+	border-top: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	height:40px;
+}
+
+.bottomThumbails {
+	height:180px;
+	padding-top:20px;
+}
+
+.bottomThumbImag {
+	height:150px !important;
+}
+
+.height100 {
+	height:100%;
+}
+
+.height80 {
+	height:80% !important;
+}
+
+.overflowHide {
+	padding-top:8px;
+	overflow:hidden;
+	white-space: nowrap;
+}
+

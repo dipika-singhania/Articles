@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'Articles/external/bootstrap/3.2.0/css/bootstrap.min.css' %}">
+	<script src="{% static 'Articles/external/angularjs/1.3.14/angular.min.js' %}"></script>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>{% block title %}My amazing site{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'Articles/stylesheet/styles.css' %}">
+        <script src="{% static 'Articles/external/jquery/1.11.2/jquery-1.11.2.min.js' %}"></script>
+		<script src="{% static 'Articles/js/ang.js' %}"></script>
+   	</head>
+	<body  ng-app="myApp" ng-controller="apiHitCtrl">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<div id="sidebar" class="text-center">
+						<div class="searchNavbar">
+							<p class="text-center floatLeft width50 borderRight">
+								<span class="glyphicon glyphicon-menu-hamburger"></span>
+							</p>
+							<p class="text-center floatLeft width50">
+								<span class="glyphicon glyphicon-search"></span>
+							</p>
+						</div>
+						<div class="pictures">
+							<div class="thumbnail">
+								<a href="https:\/\/www.hackerearth.com\/problem\/approximate\/the-xperiment\/" target="_blank">
+									<img src="{% static 'Articles/sampleImages\/madscientist.jpg.png' %}" alt="Byte Content Problem"></img>
+									<p><strong>The Xperiment</strong></p>
+									<p>Number Theory,Hard</p>
+								</a>
+							</div>
+							
+							<div class="thumbnail">
+								<a href="https:\/\/www.hackerearth.com\/problem\/algorithm\/my-girlfriend-and-her-love-for-cats-1\/" target="_blank">
+									<img src="{% static 'Articles/sampleImages\/05903-Little-girl-and-cats-around-a-chair-white-background.jpg' %}" alt="July Joust"></img>
+									<p><strong>My girlfriend and her love for cats</strong></p>
+									<p>Basic Programming,Easy,Greedy,Sorting</p>
+								</a>
+							</div>
+							<div class="thumbnail">
+								<a href="https:\/\/www.hackerearth.com\/problem\/algorithm\/the-best-internet-browser-3\/" target="_blank">
+									<img src="{% static 'Articles/sampleImages\/scissors-url-shortener.png' %}" alt="ThoughtWorks Hiring Challenge"></img>
+									<p><strong>The best Internet Browser</strong></p>
+									<p>Programming,Easy</p>
+								</a>
+							</div>
+							<div class="thumbnail">
+								<a href="https:\/\/www.hackerearth.com\/problem\/algorithm\/alien-language\/" target="_blank">
+									<img src="{% static 'Articles/sampleImages\/Jadoo-Koi-mil-gaya.jpg' %}" alt="September Easy Challenge"></img>
+									<p><strong>Alien language</strong></p>
+									<p>Basic Programming,Easy</p>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-9 rightSection">
+					<div id="content">
+						{% block content %}
+							<h1>For gods sake just work</h1>
+						{% endblock %}
+					</div>
+					<div class="borderTopBottom">
+						<div id="bottomTitle">
+							<p>
+								What to Read Next
+							</p>
+						</div>
+						<div class="pagerIcons">
+							<ul class="pager">
+							  <li  class="borderRight">
+								  <button><!-- ng-click="decreaseIndex({{ alreadyPublishedArticles.length }} )" ng-disabled="backDisabled">-->
+									<span class="glyphicon glyphicon-chevron-left"></span>
+								  </button>
+							  </li>
+							  <li>
+								<button><!-- ng-click="increaseIndex({{ alreadyPublishedArticles.length }})" ng-disabled="forDisabled">-->
+									<span class="glyphicon glyphicon-chevron-right"></span>
+								</button>
+							  </li>
+							</ul>
+						</div>
+					</div>
+					<div class="clearBoth"></div>
+					<div class="bottomThumbails">
+						<div class="row">
+							{% for article in alreadyPublishedArticles %}
+								<div class="col-sm-3 bottomThumbImag">
+									<div class="thumbnail height100">
+										<a href="{% url 'Articles:detail' article.id %}">
+											<img class="height80" src="{% static article.hero_image %}" alt="{{article.id}}"></img>
+											<p class="overflowHide"><strong> {{ article.title }}</strong></p>
+										</a>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
