@@ -1,0 +1,31 @@
+{% extends "Articles/index.html" %}
+
+{% block title %}Article List View{% endblock %}
+
+{% block content %}
+	{% load staticfiles %}
+	<div class="row">
+		<div class="col-sm-12">
+			<div id="random">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12" id="listView">
+		{% for article in alreadyPublishedArticles %}
+			<div class="width100">
+				<div class="numberDiv text-center"><span class="badge emHigherBadge">{{ forloop.counter }}</span></div>
+				<div class="detailsDiv">
+					<div class="panel">
+						<div class="panel-body">
+							<p class="emHigher"><strong>{{article.title}}</strong></p>
+							<p class="textarea-type-list">{{article.article_text}}</p>
+							<a href="{% url 'Articles:detail' article.id %}">Call to Action</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+{% endblock %}

@@ -2,10 +2,17 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import datetime
 from django.core.paginator import Paginator
+#!/usr/bin/python
+import random
 from .models import Article,Category
+from django.template import RequestContext, loader
+
 # Create your views here.
 def index(request):
-	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today())
+	weekdays = ['Monday',"Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today()).order_by('publication_date').reverse()
+	alreadyPublishedArticles.extra(order_by = ['-publication_date'])
+
 	page_size = 4
 	if len(alreadyPublishedArticles)!=0:
 		paginator = Paginator(alreadyPublishedArticles, page_size)
@@ -18,7 +25,7 @@ def index(request):
 			articlePerPage = paginator.page(1)
 		except EmptyPage:
 			articlePerPage = paginator.page(paginator.num_pages)
-		return render(request, 'Articles/index.html', 
+		return render(request, 'Articles/ArticleList.html', 
 		{'alreadyPublishedArticles':alreadyPublishedArticles , 'articlePerPage': articlePerPage}
 		)
 	else:
@@ -26,3 +33,10 @@ def index(request):
 	
 def detail(request, article_id):
 	return HttpResponse("hello dipika nice job , keep going %" , article_id)
+	
+def random_generator(request):
+	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today())
+	index = random.randrange(0, len(alreadyPublishedArticles))
+	article_random = Article.objects.get(id=index)
+	return render(request, 'Articles/detailSnippet.html',{'article_random': article_random})
+

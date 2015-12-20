@@ -42,9 +42,6 @@
 	border-top: 1px solid #000000;
 }
 
-.rightSection {
-	padding:20px;
-}
 #bottomTitle {
 	float:left;
 	width:75%;
@@ -61,13 +58,12 @@
 	width:25%;
 	height:100%;
 	ul {
-		padding-top:2px;
 		margin:0px;
 	}
 }
 
 .pager {
-	margin:6px 0 0 0;
+	margin:3px 0 0 0;
 	text-align: right;
 }
 .clearBoth {
@@ -102,3 +98,58 @@
 	white-space: nowrap;
 }
 
+.boxBorder {
+	height:100px;
+	margin:1px;
+}
+.width100 {
+	width:100%;
+}
+.width70 {
+	width:70%;
+	margin: auto;
+}
+.fixedHeightWidth {
+	height:140px !important;
+}
+.emHigher {
+	font-size:20px;
+}
+.emHigherBadge {
+	font-size:3em;
+}
+.numberDiv {
+	float:left;
+	width:10%;
+	height: 180px;
+    padding-top: 60px;
+}
+.detailsDiv{
+	float:left;
+	width:90%;
+}
+.textarea-type-list {
+  line-height: 1.5em;
+  height: 6em;
+  overflow: hidden;
+  /* Removes default vertical scrollbar in IE6/7/8/9 */
+  vertical-align: top;
+  font-size: 100%;
+  margin: auto;
+  text-decoration: none;
+  text-overflow: ellipsis;
+}
+.textarea-type {
+  line-height: 1.5em;
+  height: 9em;
+  overflow: hidden;
+  /* Removes default vertical scrollbar in IE6/7/8/9 */
+  vertical-align: top;
+  font-size: 100%;
+  margin: auto;
+  text-decoration: none;
+  text-overflow: ellipsis;
+}
+
+#listView {
+}

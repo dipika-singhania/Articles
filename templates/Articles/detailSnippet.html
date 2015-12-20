@@ -1,0 +1,16 @@
+<div>
+	{% load staticfiles %}
+	<h1> {{article_random.title}} </h1>
+	<div class="panel">
+		<div class="panel-body">
+			<p>
+				<span>{{article_random.publication_date}} | </span>
+				<span>{{article_random.author}}</span> 
+			</p>
+			<div class="thumbnail">
+				<img class="fixedHeightWidth" src="{% static article_random.hero_image %}" alt="{{article_random.id}}"></img>
+			</div>
+			<p class="textarea-type">{{article_random.article_text}}</p>
+		</div>
+	</div>
+</div>
