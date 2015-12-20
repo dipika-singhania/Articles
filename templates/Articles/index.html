@@ -60,7 +60,7 @@
 				<div class="col-sm-9 rightSection">
 					<div id="content">
 						{% block content %}
-							<h1>For gods sake just work</h1>
+							<h1>It failed to work as expected . :-( </h1>
 						{% endblock %}
 					</div>
 					<div class="borderTopBottom">
@@ -71,23 +71,27 @@
 						</div>
 						<div class="pagerIcons">
 							<ul class="pager">
+							{% if articlePerPage.has_previous %}
 							  <li  class="borderRight">
-								  <button><!-- ng-click="decreaseIndex({{ alreadyPublishedArticles.length }} )" ng-disabled="backDisabled">-->
+								  <a href="?page={{ articlePerPage.previous_page_number }}">
 									<span class="glyphicon glyphicon-chevron-left"></span>
-								  </button>
+								  </a>
 							  </li>
+							{% endif %}
+							{% if articlePerPage.has_next %}
 							  <li>
-								<button><!-- ng-click="increaseIndex({{ alreadyPublishedArticles.length }})" ng-disabled="forDisabled">-->
+								<a href="?page={{ articlePerPage.next_page_number }}">
 									<span class="glyphicon glyphicon-chevron-right"></span>
-								</button>
+								</a>
 							  </li>
+							{% endif %}
 							</ul>
 						</div>
 					</div>
 					<div class="clearBoth"></div>
 					<div class="bottomThumbails">
 						<div class="row">
-							{% for article in alreadyPublishedArticles %}
+							{% for article in articlePerPage %}
 								<div class="col-sm-3 bottomThumbImag">
 									<div class="thumbnail height100">
 										<a href="{% url 'Articles:detail' article.id %}">
