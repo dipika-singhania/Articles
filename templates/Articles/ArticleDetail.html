@@ -1,0 +1,32 @@
+{% extends "Articles/index.html" %}
+
+{% block title %}Article Detail View{% endblock %}
+
+{% block content %}
+	{% load staticfiles %}
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="panel">
+				<div class="panel-body">
+					<p class="emHigher"><strong> {{article_detail.title}} </strong></p>
+					<p>
+						<span>{{article_detail.publication_date}} | </span>
+						<span>{{article_detail.author}} | </span>
+						<span>{{article_detail.category_name}} </span> 
+					</p>
+					<div class="thumbnail">
+						<img class="fixedDetailHWHero" src="{% static article_detail.hero_image %}" alt="{{article_detail.hero_image}}"></img>
+					</div>
+					<div class="width100">
+						<div class="leftDetailPanel">
+							<pre class="textarea-type-detail">{{article_detail.article_text}}</pre>
+						</div>
+						<div class="rightDetailPanel">
+							<img class="fixedDetailHWAdd" src="{% static article_detail.additional_image %}" alt="{{article_detail.additional_image}}"></img>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
