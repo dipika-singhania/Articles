@@ -24,6 +24,34 @@
 					}
 				});
 			}
+			function getArticleSet(page) {
+				console.log("Page ="+page)
+				$.ajax({
+					url: "/Articles/articleSet/0" ,
+					dataType: 'html',
+					success: function(data) {
+						$('#article_set_details').html(data);						
+					},
+					error: function() {
+						alert("Problem loading page");
+					}
+					
+				});
+			}
+			
+			window.onload = function(){
+				setNo = 0;
+				getArticleSet(setNo);
+			};
+			
+			function getNextArticleSet(len) {
+				if(setNo*4+4<len)
+					getArticleSet(setNo);
+			}
+			
+			function getPreviousArticleSet(len) {
+				
+			}
 			window.setTimeout(refreshRandom, 5000);
 		</script>
    	</head>
@@ -87,37 +115,21 @@
 						</div>
 						<div class="pagerIcons">
 							<ul class="pager">
-							{% if articlePerPage.has_previous %}
-							  <li  class="borderRight">
-								  <a href="?page={{ articlePerPage.previous_page_number }}">
+							  <li class="borderRight">
+								  <button onclick="getPreviousArticleSet()">
 									<span class="glyphicon glyphicon-chevron-left"></span>
-								  </a>
+								  </button>
 							  </li>
-							{% endif %}
-							{% if articlePerPage.has_next %}
 							  <li>
-								<a href="?page={{ articlePerPage.next_page_number }}">
+								<button onclick ="getNextArticleSet()">
 									<span class="glyphicon glyphicon-chevron-right"></span>
-								</a>
+								</button>
 							  </li>
-							{% endif %}
 							</ul>
 						</div>
 					</div>
 					<div class="clearBoth"></div>
-					<div class="bottomThumbails">
-						<div class="row">
-							{% for article in articlePerPage %}
-								<div class="col-sm-3 bottomThumbImag">
-									<div class="thumbnail height100">
-										<a href="{% url 'Articles:detail' article.id %}">
-											<img class="height80" src="{% static article.hero_image %}" alt="{{article.id}}"></img>
-											<p class="overflowHide"><strong> {{ article.title }}</strong></p>
-										</a>
-									</div>
-								</div>
-							{% endfor %}
-						</div>
+					<div class="bottomThumbails" id="article_set_details">
 					</div>
 				</div>
 			</div>

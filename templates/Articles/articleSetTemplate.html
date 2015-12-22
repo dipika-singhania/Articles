@@ -1,0 +1,15 @@
+<div>
+	{% load staticfiles %}
+	<div class="row">
+		{% for article in article_set %}
+			<div class="col-sm-3 bottomThumbImag">
+				<div class="thumbnail height100">
+					<a href="{% url 'Articles:detail' article.id %}">
+						<img class="height80" src="{% static article.hero_image %}" alt="{{article.id}}"></img>
+						<p class="overflowHide"><strong> {{ article.title }}</strong></p>
+					</a>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
