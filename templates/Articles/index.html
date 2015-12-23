@@ -24,10 +24,23 @@
 					}
 				});
 			}
-			function getArticleSet(page) {
-				console.log("Page ="+page)
+			function getNextArticleSet() {
 				$.ajax({
-					url: "/Articles/articleSet/0" ,
+					url: "/Articles/nextArticleSet/" ,
+					dataType: 'html',
+					success: function(data) {
+						$('#article_set_details').html(data);						
+					},
+					error: function() {
+						alert("Problem loading page");
+					}
+					
+				});
+			}
+			
+			function getPreviousArticleSet() {
+				$.ajax({
+					url: "/Articles/prevArticleSet/" ,
 					dataType: 'html',
 					success: function(data) {
 						$('#article_set_details').html(data);						
@@ -40,18 +53,9 @@
 			}
 			
 			window.onload = function(){
-				setNo = 0;
-				getArticleSet(setNo);
+				getNextArticleSet();
 			};
 			
-			function getNextArticleSet(len) {
-				if(setNo*4+4<len)
-					getArticleSet(setNo);
-			}
-			
-			function getPreviousArticleSet(len) {
-				
-			}
 			window.setTimeout(refreshRandom, 5000);
 		</script>
    	</head>

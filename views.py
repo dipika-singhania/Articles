@@ -3,7 +3,7 @@ import random
 from django.shortcuts import render
 from django.http import HttpResponse
 import datetime
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #!/usr/bin/python
 import random
 from .models import Article,Category
@@ -13,78 +13,80 @@ from django.template import RequestContext, loader
 def index(request):
 	weekdays = ['Monday',"Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today()).order_by('publication_date').reverse()
-	page_size = 4
-	paginator = Paginator(alreadyPublishedArticles, page_size)
-	page = request.GET.get('page')
-	if(page==None):
-		page = 1
-	try:
-	   articlePerPage = paginator.page(page)
-	except PageNotAnInteger:
-		articlePerPage = paginator.page(1)
-	except EmptyPage:
-		articlePerPage = paginator.page(paginator.num_pages)
-	return render(request, 'Articles/ArticleList.html', 
-	{'alreadyPublishedArticles':alreadyPublishedArticles , 'articlePerPage': articlePerPage}
-	)
-	
+	return render(request, 'Articles/ArticleList.html', {'alreadyPublishedArticles':alreadyPublishedArticles})
 	
 def detail(request, article_id):
 	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today()).order_by('publication_date').reverse()
-	page_size = 4
-	paginator = Paginator(alreadyPublishedArticles, page_size)
-	page = request.GET.get('page')
-	if(page==None):
-		page = 1
-	try:
-	   articlePerPage = paginator.page(page)
-	except PageNotAnInteger:
-		articlePerPage = paginator.page(1)
-	except EmptyPage:
-		articlePerPage = paginator.page(paginator.num_pages)
 	try:
 		article_detail = Article.objects.get(id=article_id)
 	except Article.DoesNotExist:
 		article_detail = None;
-	return render(request, 'Articles/ArticleDetail.html' , {'article_detail':article_detail,'articlePerPage': articlePerPage})
+	return render(request, 'Articles/ArticleDetail.html' , {'article_detail':article_detail})
 	
 def random_generator(request):
-	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today())
-	lenFinal = Article.objects.all().order_by('id').last().id
-	index = random.randrange(0, lenFinal)
-	article_random = Article.objects.get(id=index)
+	alreadyPublishedArticles = list(Article.objects.filter(publication_date__lte=datetime.date.today()).order_by('id'))
+	lenFinal = len(alreadyPublishedArticles)
+	lenStart = 0
+	article_random = None
 	iter = 0
 	while(article_random==None or iter<100):
-		index = random.randrange(0, lenFinal)
+		index = random.randrange(lenStart, lenFinal)
 		try:
-			article_random = Article.objects.get(id=index)
-			if not(alreadyPublishedArticles.filter(id=index).exists()):
-				article_random = None
+			article_random = alreadyPublishedArticles[index]
 		except Article.DoesNotExist:
-			article=None
+			article_random = None
 		iter += 1
 	return render(request, 'Articles/detailSnippet.html',{'article_random': article_random})
 
-def articleSet(request,start_article_id):
+def prevArticleSet(request):
 	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today())
-	no_of_articles = 0
-	article_set = set()
-	print("heeloo %s" %start_article_id)
-	index = int(start_article_id)
-	lenFinal = int(Article.objects.filter(publication_date__lte=datetime.date.today()).order_by('id').last().id)
-	print("eeeoo %d" %lenFinal)
-	while(no_of_articles<4 and index<lenFinal):
-		try:
-			article = Article.objects.get(id=start_article_id)
-			print ("yes %s" %article)
-			if not(alreadyPublishedArticles.filter(id=index).exists()):
-				article = None
-			if(article!=None and article.hero_image!=None):
-				article_set.add(article)
-				no_of_articles += 1
-		except Article.DoesNotExist:
-			article=None
-			print ("no")
-		index += 1
-		start_article_id = str(index)
+	page_size = 4
+	paginator = Paginator(alreadyPublishedArticles, page_size)
+	if( 'page_number' in request.session ):
+		current_page_num = request.session['page_number']
+	else:
+		current_page_num = 1
+		
+	current_page = paginator.page(current_page_num)
+	
+	if( current_page.has_previous()):
+		previous_page_num = int(current_page.previous_page_number())
+	else:
+		previous_page_num = current_page_num
+	request.session['page_number'] = previous_page_num
+	try:
+	   article_set = paginator.page(previous_page_num)
+	except PageNotAnInteger:
+		article_set = paginator.page(1)
+	except EmptyPage:
+		article_set = paginator.page(paginator.num_pages)
+	except:
+		article_set = set()
+	return render(request,'Articles/articleSetTemplate.html',{'article_set':article_set})
+	
+def nextArticleSet(request):
+	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today())
+	page_size = 4
+	paginator = Paginator(alreadyPublishedArticles, page_size)
+	if( 'page_number' in request.session ):
+		current_page_num = int(request.session['page_number'])
+	else:
+		current_page_num = 1
+		
+	current_page = paginator.page(current_page_num)
+	
+	if( current_page.has_next()):
+		next_page_num = int(current_page.next_page_number())
+	else:
+		next_page_num = current_page_num
+
+	request.session['page_number'] = next_page_num
+	try:
+	   article_set = paginator.page(next_page_num)
+	except PageNotAnInteger:
+		article_set = paginator.page(1)
+	except EmptyPage:
+		article_set = paginator.page(paginator.num_pages)
+	except:
+		article_set = set()
 	return render(request,'Articles/articleSetTemplate.html',{'article_set':article_set})
