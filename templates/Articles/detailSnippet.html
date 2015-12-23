@@ -4,8 +4,8 @@
 	<div class="panel">
 		<div class="panel-body">
 			<p>
-				<span>{{article_random.publication_date}} | </span>
-				<span>{{article_random.author}}</span> 
+				<span>{{ article_random.publication_date|date:"l, F dS,Y" }} | </span>
+				<a href="{% url 'Articles:detail' article_random.id %}"><span>{{article_random.author}}</span></a>
 			</p>
 			<div class="thumbnail">
 				<img class="fixedHeightWidth" src="{% static article_random.hero_image %}" alt="{{article_random.id}}"></img>

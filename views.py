@@ -11,12 +11,11 @@ from django.template import RequestContext, loader
 
 # Create your views here.
 def index(request):
-	weekdays = ['Monday',"Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today()).order_by('publication_date').reverse()
+	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.datetime.today()).order_by('publication_date')
 	return render(request, 'Articles/ArticleList.html', {'alreadyPublishedArticles':alreadyPublishedArticles})
 	
 def detail(request, article_id):
-	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today()).order_by('publication_date').reverse()
+	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.datetime.today()).order_by('publication_date')
 	try:
 		article_detail = Article.objects.get(id=article_id)
 	except Article.DoesNotExist:
@@ -24,7 +23,7 @@ def detail(request, article_id):
 	return render(request, 'Articles/ArticleDetail.html' , {'article_detail':article_detail})
 	
 def random_generator(request):
-	alreadyPublishedArticles = list(Article.objects.filter(publication_date__lte=datetime.date.today()).order_by('id'))
+	alreadyPublishedArticles = list(Article.objects.filter(publication_date__lte=datetime.datetime.today()))
 	lenFinal = len(alreadyPublishedArticles)
 	lenStart = 0
 	article_random = None
@@ -33,13 +32,15 @@ def random_generator(request):
 		index = random.randrange(lenStart, lenFinal)
 		try:
 			article_random = alreadyPublishedArticles[index]
+			if(not(article_random.hero_image)):
+				article_random = None
 		except Article.DoesNotExist:
 			article_random = None
 		iter += 1
 	return render(request, 'Articles/detailSnippet.html',{'article_random': article_random})
 
 def prevArticleSet(request):
-	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today())
+	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.datetime.today())
 	page_size = 4
 	paginator = Paginator(alreadyPublishedArticles, page_size)
 	if( 'page_number' in request.session ):
@@ -65,7 +66,7 @@ def prevArticleSet(request):
 	return render(request,'Articles/articleSetTemplate.html',{'article_set':article_set})
 	
 def nextArticleSet(request):
-	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.date.today())
+	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.datetime.today())
 	page_size = 4
 	paginator = Paginator(alreadyPublishedArticles, page_size)
 	if( 'page_number' in request.session ):

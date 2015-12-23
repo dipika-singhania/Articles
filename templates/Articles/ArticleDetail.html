@@ -10,7 +10,7 @@
 				<div class="panel-body">
 					<p class="emHigher"><strong> {{article_detail.title}} </strong></p>
 					<p>
-						<span>{{article_detail.publication_date}} | </span>
+						<span>{{ article_detail.publication_date|date:"l, F dS,Y" }} | </span>
 						<span>{{article_detail.author}} | </span>
 						<span>{{article_detail.category_name}} </span> 
 					</p>
