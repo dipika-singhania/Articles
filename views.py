@@ -91,3 +91,23 @@ def nextArticleSet(request):
 	except:
 		article_set = set()
 	return render(request,'Articles/articleSetTemplate.html',{'article_set':article_set})
+
+def currArticleSet(request):
+	alreadyPublishedArticles = Article.objects.filter(publication_date__lte=datetime.datetime.today())
+	page_size = 4
+	paginator = Paginator(alreadyPublishedArticles, page_size)
+	if( 'page_number' in request.session ):
+		current_page_num = int(request.session['page_number'])
+	else:
+		current_page_num = 1
+	current_page = paginator.page(current_page_num)
+	request.session['page_number'] = current_page_num
+	try:
+	   article_set = paginator.page(current_page_num)
+	except PageNotAnInteger:
+		article_set = paginator.page(1)
+	except EmptyPage:
+		article_set = paginator.page(paginator.num_pages)
+	except:
+		article_set = set()
+	return render(request,'Articles/articleSetTemplate.html',{'article_set':article_set})

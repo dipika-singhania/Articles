@@ -52,8 +52,22 @@
 				});
 			}
 			
+			function getCurrentArticleSet() {
+				$.ajax({
+					url: "/Articles/currArticleSet/" ,
+					dataType: 'html',
+					success: function(data) {
+						$('#article_set_details').html(data);						
+					},
+					error: function() {
+						alert("Problem loading page");
+					}
+					
+				});
+			}
+			
 			window.onload = function(){
-				getNextArticleSet();
+				getCurrentArticleSet();
 			};
 			
 			window.setTimeout(refreshRandom, 1000);
